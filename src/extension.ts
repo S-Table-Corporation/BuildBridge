@@ -53,7 +53,12 @@ function RegisterAllCommands(context: vscode.ExtensionContext, treeDataProvider:
 }
 
 async function GetCurrentProjectConfiguration() {
-	const folder = vscode.workspace.workspaceFolders![0].uri.fsPath;
+	const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+	if (!workspaceFolder) {
+		return;
+	}
+
+	const folder = workspaceFolder.uri.fsPath;
 	const session = ProjectSession.getInstance();
 
 	// Try load config file
